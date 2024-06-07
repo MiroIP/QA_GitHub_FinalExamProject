@@ -33,12 +33,11 @@ public class GitHubSignUpUsernameNegativeTest extends BaseTest {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(@class, 'px-sm-0')]//br")));
 
-        // Find the "Enter your email*" field and enter a valid email
+        // Find the "Enter your email" field and enter a valid email
         WebElement emailField = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
         emailField.sendKeys("valid-email@example.com");
 
-        // Find the "Continue" button and click it
         WebElement continueButton = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-continue-to=password-container]")));
         continueButton.click();
@@ -48,7 +47,6 @@ public class GitHubSignUpUsernameNegativeTest extends BaseTest {
                 .until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
         passwordField.sendKeys("ValidPassword123!");
 
-        // Find the "Continue" button and click it
         continueButton = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-continue-to=username-container]")));
         continueButton.click();
@@ -56,7 +54,6 @@ public class GitHubSignUpUsernameNegativeTest extends BaseTest {
         // Perform negative tests with invalid usernames
         String[] invalidUsernames = {"short", "123456", "user@name"};
         for (String username : invalidUsernames) {
-            // Ensure we are on the username page
             new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.id("login")));
 
@@ -67,7 +64,6 @@ public class GitHubSignUpUsernameNegativeTest extends BaseTest {
             // Explicitly wait before submitting to allow the field validation to process
             new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.textToBePresentInElementValue(By.id("login"), username));
 
-            // Try clicking the continue button to trigger the error message
             try {
                 WebElement usernameContinueButton = new WebDriverWait(driver, Duration.ofSeconds(10))
                         .until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-continue-to=verify-container]")));
@@ -76,7 +72,6 @@ public class GitHubSignUpUsernameNegativeTest extends BaseTest {
                 System.out.println("Continue button not clickable for username " + username);
             }
 
-            // Wait for and read the error message for incorrect data
             WebElement errorMessage = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.id("login-err")));
             System.out.println("Error message for username " + username + ": " + errorMessage.getText());

@@ -31,7 +31,6 @@ public class GitHubSignUpEmailNegativeTest extends BaseTest {
             emailField.sendKeys(email);
             emailField.submit();
 
-            // Wait for and read the error message for incorrect data
             WebElement errorMessage = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.presenceOfElementLocated(By.id("email-err")));
             System.out.println("Error message for " + email + ": " + errorMessage.getText());

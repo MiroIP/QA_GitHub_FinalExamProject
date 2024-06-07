@@ -23,16 +23,14 @@ public class GitHubSignUpPasswordNegativeTest extends BaseTest {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(@class, 'px-sm-0')]//br")));
 
-        // Find the "Enter your email*" field and enter a valid email
+        // Find the "Enter your email" field and enter a valid email
         WebElement emailField = driver.findElement(By.id("email"));
         emailField.sendKeys("valid-email@example.com");
 
-        // Find the "Continue" button and click it
         WebElement continueButton = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-continue-to=password-container]")));
         continueButton.click();
 
-        // Test various password scenarios
         String[] passwords = {
                 "a".repeat(73), // Very long password
                 "short", // Short password
@@ -50,10 +48,8 @@ public class GitHubSignUpPasswordNegativeTest extends BaseTest {
         };
 
         for (int i = 0; i < passwords.length; i++) {
-            // Refresh the page to reset the form
             driver.navigate().refresh();
 
-            // Re-enter the email
             emailField = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
             emailField.sendKeys("valid-email@example.com");
@@ -62,12 +58,10 @@ public class GitHubSignUpPasswordNegativeTest extends BaseTest {
                     .until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-continue-to=password-container]")));
             continueButton.click();
 
-            // Enter the password
             WebElement passwordField = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
             passwordField.sendKeys(passwords[i]);
 
-            // Wait for and read the error message for the password
             WebElement errorMessage = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.id("password-err")));
             System.out.println("Error message for password '" + passwords[i] + "': " + errorMessage.getText());
